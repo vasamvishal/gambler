@@ -13,6 +13,7 @@ stakes=100
 min=$(( $stakes/2 ));
 max=$(( $stakes+min ));
 win=1
+won=0
 loss=0
 bet=0
 
@@ -30,6 +31,7 @@ do
 	if [ $stakes -eq $max ]
 	then 
               echo "profit"
+              won=$(( $won+1 ))
 		break;
 	fi
 
@@ -40,13 +42,29 @@ do
 	if [ $stakes -eq $min ]
 	then
          	echo "loss"
+                loss=$(( $loss+1 ))
 		break;
 	fi
 	fi
 	done
 	echo $stakes
 totalamountoneday=$(( $totalamountoneday+ $stakes ))
+echo $won
+echo $loss
+bet=0
+stack=100
  done
+
+echo $won
+echo $loss
+calculate=$(( $day*$days ))
+if [ $totalamountoneday -ge $calculate ]
+then
+   totalprofit=$(( $totalamountoneday-$calculate ))
+else
+   totallost=$(( $calculate-$totalamountoneday ))
+ fi
+
 }
 bet 
 
