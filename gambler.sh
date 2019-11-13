@@ -7,7 +7,6 @@ max=0;
 totalamountoneday=0;
 function bet()
 {
-
 day=100
 stakes=100
 min=$(( $stakes/2 ));
@@ -16,7 +15,6 @@ win=1
 won=0
 loss=0
 bet=0
-
 for (( count=0;count<$days;count++ ))
 do
 while [ $bet != $times ]
@@ -53,7 +51,7 @@ echo $won
 echo $loss
 bet=0
 stack=100
- done
+done
 
 echo $won
 echo $loss
