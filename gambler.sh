@@ -1,56 +1,75 @@
 #Welcome to the system
 read -p "Enter the no of days:" days
 read -p "Enter the no of times to play:" times
-
+#stack=100;
 min=0;
 max=0;
+totalStake=100;
+cash=0;
 totalamountoneday=0;
+function stack()
+{
+intialcash=$cash
+min=$(( $cash/2 ));
+max=$(( $cash+min ));
+}
+
 function bet()
 {
 day=100
-stakes=100
-min=$(( $stakes/2 ));
-max=$(( $stakes+min ));
 win=1
 won=0
 loss=0
 bet=0
+intialcash=0;
 for (( count=0;count<$days;count++ ))
 do
+cash=$(( $cash+$totalStake ))
+        stack $cash
+
 while [ $bet != $times ]
-do
-       
+do  
+#        cash=$(( $cash+$totalStake ))
+ #       stack $cash
         random=$((RANDOM%2))
-         bet=$(( $bet+1 ))
+        bet=$(( $bet+1 ))
         if [ $random -eq $win ] 
         then
                echo "You Win"
-               stakes=$(( $stakes+1 ))
-	if [ $stakes -eq $max ]
+               cash=$(( $cash+1 ))
+	if [ $cash -eq $max ]
 	then 
               echo "profit"
-              won=$(( $won+1 ))
+             # won=$(( $won+1 ))
 		break;
 	fi
 
         else
         echo "You loss"
-	stakes=$(( $stakes-1 ))
+	cash=$(( $cash-1 ))
 
-	if [ $stakes -eq $min ]
+	if [ $cash -eq $min ]
 	then
          	echo "loss"
-                loss=$(( $loss+1 ))
+              #  loss=$(( $loss+1 ))
 		break;
 	fi
 	fi
 	done
-	echo $stakes
-totalamountoneday=$(( $totalamountoneday+ $stakes ))
+	
+	if [ $cash -ge $intialcash ]
+        then 
+	     won=$(( $won+1 ))
+         else
+             loss=$(( $loss+1 ))
+          fi 
+	echo $cash
+totalamountoneday=$(( $totalamountoneday+ $cash ))
+echo $totalamountoneday
 echo $won
 echo $loss
 bet=0
-stack=100
+stakes=$(( $stakes+100 ))
 done
 
 echo $won
@@ -64,5 +83,6 @@ else
  fi
 
 }
+
 bet 
 
