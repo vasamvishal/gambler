@@ -1,28 +1,35 @@
 #Welcome to the system
 read -p "Enter the no of days:" days
+read -p "Enter the no of times to play:" times
+
 min=0;
 max=0;
+totalamountoneday=0;
 function bet()
 {
+
+day=100
 stakes=100
 min=$(( $stakes/2 ));
 max=$(( $stakes+min ));
 win=1
 loss=0
-bet1=100
+bet=0
 
 for (( count=0;count<$days;count++ ))
 do
-while [ $stakes != 0 ]
+while [ $bet != $times ]
 do
-
+       
         random=$((RANDOM%2))
+         bet=$(( $bet+1 ))
         if [ $random -eq $win ] 
         then
                echo "You Win"
                stakes=$(( $stakes+1 ))
 	if [ $stakes -eq $max ]
 	then 
+              echo "profit"
 		break;
 	fi
 
@@ -32,13 +39,13 @@ do
 
 	if [ $stakes -eq $min ]
 	then
-         	echo "weee"
+         	echo "loss"
 		break;
 	fi
 	fi
 	done
-	
-stakes=100
+	echo $stakes
+totalamountoneday=$(( $totalamountoneday+ $stakes ))
  done
 }
 bet 
