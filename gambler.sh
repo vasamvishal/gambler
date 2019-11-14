@@ -1,17 +1,12 @@
 #Welcome to the system
 read -p "Enter the no of days:" days
-read -p "Enter the no of times to play:" times
+#read -p "Enter the no of times to play:" times
+#stack=100;
 min=0;
 max=0;
 totalStake=100;
 cash=0;
-totalprofit1=0; 
-luckyday=0;
-totalloss1=0;
-unluckyday=0;
 totalamountoneday=0;
-total=0;
-losstotal=0;
 function stack()
 {
 intialcash=$cash
@@ -25,34 +20,36 @@ day=100
 win=1
 won=0
 loss=0
-bet=0
+bet=1
 intialcash=0;
-counter=1;
 for (( count=0;count<$days;count++ ))
 do
-	cash=$(( $cash+$totalStake ))
+cash=$(( $totalStake ))
         stack $cash
 
-while [ $bet != $times ]
+while [ $bet != 0 ]
 do  
         random=$((RANDOM%2))
         bet=$(( $bet+1 ))
         if [ $random -eq $win ] 
         then
-               echo "You Win"
+               
                cash=$(( $cash+1 ))
-	if [ $cash -ge $max ]
+	if [ $cash -eq $max ]
 	then 
-              echo "profit"
-             # won=$(( $won+1 ))
+              echo "reached limit"
+              win=$(( $win+1 ))
 		break;
 	fi
+
         else
-        echo "You loss"
+        
 	cash=$(( $cash-1 ))
-	if [ $cash -lt $min ]
+
+	if [ $cash -eq $min ]
 	then
-         	echo "loss"
+         	echo "reached lowest limit"
+                loss=$(( $loss+1 ))
 		break;
 	fi
 	fi
@@ -60,39 +57,23 @@ do
 	
 	if [ $cash -ge $intialcash ]
         then 
-	     won=$(( $won+1 ))
-        else
-             loss=$(( $loss+1 ))
-        fi 
-	echo $cash
-	totalamountoneday=$(( $cash ))
+	  #   won=$(( $won+1 ))
+         #else
+          #   loss=$(( $loss+1 ))
+         # fi 
+	#echo $cash
+        diff=$(( $cash-$initialcash )) 
+	else
+	diff=$(( $initialcash-$cash ))
+totalamountoneday=$(( $totalamountoneday+ $diff ))
 echo $totalamountoneday
+#echo $won
+#echo $loss
+bet=1
+stakes=$(( $stakes+100 ))
+done
 echo $won
 echo $loss
-bet=0
-stakes=$(( $stakes+100 ))
-calculate=$(( $day*$counter ))
-counter=$(( $counter+1 ))
-
-if [ $totalamountoneday -ge $calculate ]
-then
-   totalprofit1=$(( $totalamountoneday-$calculate ))
-	echo "totalprofit" $totalprofit1
-else
-   totalloss1=$(( $calculate-$totalamountoneday ))
- 	echo "totalost" $totalloss1
- fi
-echo $total
-   if [ $totalprofit1 -ge $total ]
-   then
-       total=$totalprofit1
-       luckyday=$count
-   elif [ $totalloss1 -ge $losstotal ]
-       then
-	losstotal=$totalloss1
-	unluckyday=$count
-    fi
-done
 calculate=$(( $day*$days ))
 if [ $totalamountoneday -ge $calculate ]
 then
@@ -100,12 +81,5 @@ then
 else
    totallost=$(( $calculate-$totalamountoneday ))
  fi
-echo ":profit value" $totalprofit1
-echo ":profit day" $luckyday
-echo ":loss day" $unluckyday
-echo ":loss value" $totalloss1
 }
-
-bet 
-
-
+bet
